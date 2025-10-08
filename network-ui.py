@@ -256,20 +256,39 @@ def run_docker_compose(compose_file, container_prefix):
 def create_gns3():
     if request.method == "POST":
         prefix = request.form["name"].strip() or generate_random_name("gns3")
-        server_port = int(request.form.get("server_port", get_random_port()))
-        gui_port = int(request.form.get("gui_port", get_random_port()))
 
+        # Use get_random_port() if input is empty
+        server_port_input = request.form.get("server_port", "").strip()
+        gui_port_input = request.form.get("gui_port", "").strip()
+
+        server_port = int(server_port_input) if server_port_input else get_random_port()
+        gui_port = int(gui_port_input) if gui_port_input else get_random_port()
+
+        # Create Docker Compose file
         path, server_name, gui_name, s_port, g_port = create_gns3_compose_file(server_port, gui_port, prefix)
         run_docker_compose(path, prefix)
+
+        # Verify containers started
+        try:
+            server_container = client.containers.get(server_name)
+            gui_container = client.containers.get(gui_name)
+            if server_container.status != "running" or gui_container.status != "running":
+                status_msg = f"⚠️ One or more containers not running. Server: {server_container.status}, GUI: {gui_container.status}"
+            else:
+                status_msg = "✅ GNS3 containers started successfully!"
+        except docker.errors.NotFound as e:
+            status_msg = f"❌ Error: {e}"
 
         return render_template("success.html",
                                os_type="GNS3",
                                container=f"{server_name} & {gui_name}",
                                version="N/A",
                                rdp=s_port,
-                               web=g_port)
+                               web=g_port,
+                               status=status_msg)
 
     return render_template("gns3_create.html")
+
 
 
 @app.route("/gns3/list")
