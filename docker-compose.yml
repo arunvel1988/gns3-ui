@@ -17,7 +17,7 @@ services:
     ports:
       - "6080:80"
     environment:
-      - VNC_PASSWORD=ubunut
+      - VNC_PASSWORD=ubuntu
       - ALSADEV=hw:2,0
     devices:
       - /dev/snd 
