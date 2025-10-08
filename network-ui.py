@@ -275,13 +275,16 @@ def create_gns3():
 @app.route("/gns3/list")
 def list_gns3_containers():
     containers = []
-    for c in client.containers.list():
+    for c in client.containers.list(all=True):  # include stopped too if needed
         try:
-            if c.image.tags and ("arunvel1988/gns3-server-v1" in c.name or "ubuntu-desktop-lxde-vnc" in c.image.tags[0]):
+            if c.image.tags and (
+                "arunvel1988/gns3-server-v1" in c.image.tags[0] or
+                "ubuntu-desktop-lxde-vnc" in c.image.tags[0]
+            ):
                 containers.append({
                     "name": c.name,
                     "status": c.status,
-                    "image": c.image.tags[0] if c.image.tags else "N/A",
+                    "image": c.image.tags[0],
                     "ports": ", ".join([
                         f"{container_port}->{details[0]['HostPort']}"
                         for container_port, details in (c.attrs['NetworkSettings']['Ports'] or {}).items()
@@ -291,6 +294,7 @@ def list_gns3_containers():
         except Exception as e:
             print(f"[!] Skipped container {c.name} due to error: {e}")
     return render_template("list.html", os_type="GNS3", containers=containers)
+
 
 
 if __name__ == "__main__":
