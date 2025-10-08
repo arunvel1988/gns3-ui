@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   gns3-server:
-    image: arunvel1988/gns3-server
+    image: arunvel1988/gns3-server-v1
     container_name: gns3-server
     restart: always
     privileged: true
