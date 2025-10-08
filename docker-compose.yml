@@ -17,8 +17,12 @@ services:
     ports:
       - "6080:80"
     environment:
-      - VNC_PASSWORD=gns3
+      - VNC_PASSWORD=ubunut
+      - ALSADEV=hw:2,0
+    devices:
+      - /dev/snd 
     volumes:
       - gns3_data:/root/GNS3
+      - /dev/shm:/dev/shm
 volumes:
   gns3_data:
