@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   gns3-server:
-    image: gns3/gns3-server
+    image: arunvel1988/gns3-server
     container_name: gns3-server
     restart: always
     privileged: true
@@ -11,7 +11,7 @@ services:
       - gns3_data:/data
 
   gns3-gui:
-    image: dorowu/ubuntu-desktop-lxde-vnc
+    image: arunvel1988/ubuntu-desktop-lxde-vnc
     container_name: gns3-gui
     restart: always
     ports:
