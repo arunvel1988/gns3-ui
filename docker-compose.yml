@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  gns3-server:
+    image: gns3/gns3-server
+    container_name: gns3-server
+    restart: always
+    privileged: true
+    ports:
+      - "3080:3080"
+    volumes:
+      - gns3_data:/data
+
+  gns3-gui:
+    image: dorowu/ubuntu-desktop-lxde-vnc
+    container_name: gns3-gui
+    restart: always
+    ports:
+      - "6080:80"
+    environment:
+      - VNC_PASSWORD=gns3
+    volumes:
+      - gns3_data:/root/GNS3
+volumes:
+  gns3_data:
