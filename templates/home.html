@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Linux Server Playground</title>
+  <title>Network Playground</title>
   <style>
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #f0f4c3, #e0f7fa);
+      background: linear-gradient(to right, #e3f2fd, #e8f5e9);
       color: #333;
       padding: 50px;
     }
@@ -26,13 +26,9 @@
     }
 
     h1 {
-      color: #2e7d32;
+      color: #1565c0;
       font-size: 2.5rem;
       margin-bottom: 10px;
-    }
-
-    h1 span {
-      font-size: 2.8rem;
     }
 
     p {
@@ -55,7 +51,7 @@
       margin-top: 30px;
       padding: 14px 30px;
       font-size: 1.1rem;
-      background: linear-gradient(to right, #66bb6a, #388e3c);
+      background: linear-gradient(to right, #42a5f5, #1e88e5);
       color: #fff;
       text-decoration: none;
       border-radius: 10px;
@@ -64,23 +60,19 @@
     }
 
     .btn:hover {
-      background: linear-gradient(to right, #388e3c, #2e7d32);
+      background: linear-gradient(to right, #1e88e5, #1565c0);
     }
 
     .link-docs {
       display: inline-block;
       margin-top: 20px;
-      color: #2e7d32;
+      color: #1565c0;
       text-decoration: none;
       font-weight: bold;
     }
 
     .link-docs:hover {
       text-decoration: underline;
-    }
-
-    .emoji {
-      font-size: 1.4rem;
     }
 
     footer {
@@ -93,22 +85,24 @@
 </head>
 <body>
   <div class="container">
-    <h1><span>🐧</span> Linux Server Playground</h1>
-    <p>Welcome to your <strong>Linux Server learning lab</strong>! This local playground helps you quickly create and manage Linux servers and desktops with one click:</p>
+    <h1>Network Playground</h1>
+    <p>Welcome to your Network Engineering Lab. This environment helps you learn and experiment with modern networking concepts, tools, and architectures.</p>
 
     <ul>
-      <li>📦 Learn the difference between <strong>YUM-based</strong> (RHEL, CentOS, AlmaLinux) and <strong>APT-based</strong> (Debian, Ubuntu) systems</li>
-      <li>🛠️ Practice installing services using <code>yum</code> and <code>apt</code> commands</li>
-      <li>🧰 Configure SSH, firewall (ufw/firewalld), users, groups, and permissions</li>
-      <li>🗂️ Manage Nginx/Apache, FTP, Samba, and system logs</li>
-      <li>💡 Automate tasks using <strong>cron</strong>, <strong>bash scripting</strong>, and <strong>systemd</strong> services</li>
+      <li>Learn routing and switching concepts using VyOS and Linux networking</li>
+      <li>Explore NFV (Network Function Virtualization) and build virtual routers, firewalls, and load balancers</li>
+      <li>Practice SDN (Software Defined Networking) using Open vSwitch (OVS) and OpenDaylight</li>
+      <li>Configure firewalls like Palo Alto and FortiGate for LAN, DMZ, and Internet zones</li>
+      <li>Simulate data center or enterprise topologies using GNS3, VMware, and Linux bridges</li>
+      <li>Test automation using Ansible, Terraform, and Python for network provisioning</li>
+      <li>Understand network monitoring using Grafana, Prometheus, and SNMP tools</li>
     </ul>
 
-    <a class="link-docs" href="https://ubuntu.com/server/docs" target="_blank">📖 Ubuntu Server Docs (APT-based)</a><br>
-    <a class="link-docs" href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/" target="_blank">📖 Red Hat Server Docs (YUM-based)</a><br>
+    <a class="link-docs" href="https://docs.vyos.io/en/latest/" target="_blank">VyOS Documentation</a><br>
+    <a class="link-docs" href="https://docs.openvswitch.org/en/latest/" target="_blank">Open vSwitch Documentation</a><br>
+    <a class="link-docs" href="https://www.opendaylight.org/" target="_blank">OpenDaylight SDN Platform</a><br>
 
-    <a class="btn" href="/pre-req">🔧 Check Linux Lab Prerequisites</a>
+    <a class="btn" href="/pre-req">Check Network Lab Prerequisites</a>
   </div>
 </body>
 </html>
-

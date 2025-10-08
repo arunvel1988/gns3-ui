@@ -181,13 +181,12 @@ def install_portainer_route():
 
 ##################ANSIBLE INSTALLATION##################
 
-@app.route("/linux")
-def linux_info():
-    return render_template("linux_info.html")
+@app.route("/network")
+def network_info():
+    return render_template("network_info.html")
+
 
 used_ports = set()
-
-
 
 def get_random_port(start=4000, end=9000):
     while True:
@@ -200,108 +199,89 @@ def generate_random_name(prefix):
     suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=4))
     return f"{prefix}-{suffix}"
 
-
-
-def create_linux_compose_file(version, container_name):
-    ssh_port = get_random_port()
+def create_gns3_compose_file(server_port, gui_port, container_prefix):
+    server_name = f"{container_prefix}-server"
+    gui_name = f"{container_prefix}-gui"
 
     os.makedirs("compose_files", exist_ok=True)
-    os.makedirs("linux", exist_ok=True)
-
-    volume_dir = f"./linux/{container_name}"
-    os.makedirs(volume_dir, exist_ok=True)
-
-    image_name = f"{version}"  
 
     compose_content = f"""
-version: '3.7'
+version: '3.8'
 services:
-  {container_name}:
-    image: {image_name}
-    container_name: {container_name}
-    ports:
-      - "{ssh_port}:22"
-    volumes:
-      - {volume_dir}:/data
+  {server_name}:
+    image: arunvel1988/gns3-server-v1
+    container_name: {server_name}
     restart: always
-    stop_grace_period: 2m
-    command: tail -f /dev/null
+    privileged: true
+    ports:
+      - "{server_port}:3080"
+    environment:
+      - GNS3_ENABLE_KVM=false
+    volumes:
+      - {container_prefix}_data:/data
+
+  {gui_name}:
+    image: arunvel1988/ubuntu-desktop-lxde-vnc
+    container_name: {gui_name}
+    restart: always
+    ports:
+      - "{gui_port}:80"
+    environment:
+      - VNC_PASSWORD=ubuntu
+      - ALSADEV=hw:2,0
+    devices:
+      - /dev/snd
+    volumes:
+      - {container_prefix}_data:/root/GNS3
+      - /dev/shm:/dev/shm
+
+volumes:
+  {container_prefix}_data:
 """
 
-    file_path = f"compose_files/{container_name}.yml"
+    file_path = f"compose_files/{container_prefix}.yml"
     with open(file_path, "w") as f:
         f.write(compose_content)
 
-    return file_path, container_name, ssh_port
+    return file_path, server_name, gui_name, server_port, gui_port
 
-
-
-
-
-
-def run_docker_compose(compose_file, container_name):
+def run_docker_compose(compose_file, container_prefix):
     try:
-        subprocess.run(["docker-compose", "-p", container_name, "-f", compose_file, "up", "-d"], check=True)
+        subprocess.run(["docker-compose", "-p", container_prefix, "-f", compose_file, "up", "-d"], check=True)
     except subprocess.CalledProcessError as e:
         print(f"[ERROR] Failed to run Docker Compose: {e}")
         raise
 
-# Routes
-
-
-
-@app.route("/linux/server", methods=["GET", "POST"])
-def linux_server():
+@app.route("/gns3/create", methods=["GET", "POST"])
+def create_gns3():
     if request.method == "POST":
-        version = request.form["version"]  # e.g. rhel9 or ubuntu
-        name = request.form["name"].strip() or generate_random_name("linuxsrv")
-        path, container, ssh_port = create_linux_compose_file(version, name)
-        run_docker_compose(path, container)
-        return render_template("success.html", os_type="Linux Server", version=version, container=container, rdp=ssh_port, web=None)
-    return render_template("linux_server.html")
+        prefix = request.form["name"].strip() or generate_random_name("gns3")
+        server_port = int(request.form.get("server_port", get_random_port()))
+        gui_port = int(request.form.get("gui_port", get_random_port()))
+
+        path, server_name, gui_name, s_port, g_port = create_gns3_compose_file(server_port, gui_port, prefix)
+        run_docker_compose(path, prefix)
+
+        return render_template("success.html",
+                               os_type="GNS3",
+                               container=f"{server_name} & {gui_name}",
+                               version="N/A",
+                               rdp=s_port,
+                               web=g_port)
+
+    return render_template("gns3_create.html")
 
 
-@app.route("/linux/desktop", methods=["GET", "POST"])
-def linux_desktop():
-    if request.method == "POST":
-        version = request.form["version"]  # e.g. ubuntudesktop
-        name = request.form["name"].strip() or generate_random_name("linuxdesk")
-        path, container, ssh_port = create_linux_compose_file(version, name)
-        run_docker_compose(path, container)
-        return render_template("success.html", os_type="Linux Desktop", version=version, container=container, rdp=ssh_port, web=None)
-    return render_template("linux_desktop.html")
-
-
-@app.route("/linux/server/install/<version>")
-def install_linux_server(version):
-    name = generate_random_name("linuxsrv")
-    path, container, ssh_port = create_linux_compose_file(version, name)
-    run_docker_compose(path, container)
-    return render_template("success.html", os_type="Linux Server", version=version, container=container, rdp=ssh_port, web=None)
-
-@app.route("/linux/desktop/install/<version>")
-def install_linux_desktop(version):
-    name = generate_random_name("linuxdesk")
-    path, container, ssh_port = create_linux_compose_file(version, name)
-    run_docker_compose(path, container)
-    return render_template("success.html", os_type="Linux Desktop", version=version, container=container, rdp=ssh_port, web=None)
-
-
-@app.route("/linux/server/server_list")
-def list_linux_servers():
+@app.route("/gns3/list")
+def list_gns3_containers():
     containers = []
     for c in client.containers.list():
         try:
-            if c.image.tags and (
-                c.image.tags[0].startswith("redhat/ubi") or 
-                "arunvel1988/rhel" in c.image.tags[0]
-            ):
-                version = c.image.tags[0].split(":")[0].split("/")[-1]
+            if c.image.tags and ("gns3-server" in c.name or "ubuntu-desktop-lxde-vnc" in c.image.tags[0]):
                 containers.append({
                     "name": c.name,
                     "status": c.status,
-                    "image": c.image.tags[0],
-                    "version": version,
+                    "image": c.image.tags[0] if c.image.tags else "N/A",
                     "ports": ", ".join([
                         f"{container_port}->{details[0]['HostPort']}"
                         for container_port, details in (c.attrs['NetworkSettings']['Ports'] or {}).items()
@@ -310,32 +290,7 @@ def list_linux_servers():
                 })
         except Exception as e:
             print(f"[!] Skipped container {c.name} due to error: {e}")
-    return render_template("list.html", os_type="Linux Server", containers=containers)
-
-
-@app.route("/linux/desktop/desktop_list")
-def list_linux_desktops():
-    containers = []
-    for c in client.containers.list():
-        try:
-            if c.image.tags and "ubuntu" in c.image.tags[0]:
-                version = c.image.tags[0].split(":")[0].split("/")[-1]
-                containers.append({
-                    "name": c.name,
-                    "status": c.status,
-                    "image": c.image.tags[0],
-                    "version": version,
-                    "ports": ", ".join([
-                        f"{container_port}->{details[0]['HostPort']}"
-                        for container_port, details in (c.attrs['NetworkSettings']['Ports'] or {}).items()
-                        if details
-                    ])
-                })
-        except Exception as e:
-            print(f"[!] Skipped container {c.name} due to error: {e}")
-    return render_template("list.html", os_type="Linux Desktop", containers=containers)
-
-
+    return render_template("list.html", os_type="GNS3", containers=containers)
 
 
 if __name__ == "__main__":
