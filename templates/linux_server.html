@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Deploy Linux Server</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ede7f6, #e3f2fd);
+      padding: 60px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 2.4rem;
+      color: #2e7d32;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    label {
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 8px;
+      color: #444;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 25px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 30px;
+      background: linear-gradient(to right, #388e3c, #2e7d32);
+      color: #fff;
+      font-size: 1.1rem;
+      text-decoration: none;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(to right, #2e7d32, #1b5e20);
+      transform: scale(1.05);
+    }
+
+    .btn-secondary {
+      margin-top: 20px;
+      background-color: #546e7a;
+    }
+
+    .btn-secondary:hover {
+      background-color: #37474f;
+    }
+
+    .buttons {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🐧 Deploy a Linux Server</h2>
+
+    <form method="POST">
+      <label for="version">Select Linux Server Version:</label>
+      <select name="version" id="version" required>
+        <option value="redhat/ubi9">Red Hat Enterprise Linux 9</option>
+        <option value="redhat/ubi8">Red Hat Enterprise Linux 8</option>
+        <option value="ubuntu">Ubuntu Server 22.04</option>       
+        <option value="arunvel1988/rhel8">AlmaLinux 9</option>
+      </select>
+
+      <label for="name">Enter Custom Container Name:</label>
+      <input type="text" name="name" id="name" placeholder="e.g. my-linux-server" required>
+
+      <div class="buttons">
+        <button type="submit" class="btn">🚀 Deploy</button>
+        <a class="btn btn-secondary" href="/">🏠 Home</a>
+        <a class="btn btn-secondary" href="/linux">Linux</a>
+        <a class="btn btn-secondary" href="/linux/server/server_list">Linux Server List</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+

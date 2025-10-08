@@ -49,15 +49,15 @@ fi
 
 # Give permissions to Docker socket (insecure but OK for demo/dev)
 if [ -S /var/run/docker.sock ]; then
-    echo "🛠️  Fixing Docker socket permissions (chmod 777)..."
+    echo "Fixing Docker socket permissions (chmod 777)..."
     sudo chmod 777 /var/run/docker.sock
-    echo "✅ Docker socket permissions updated."
+    echo "Docker socket permissions updated."
 else
-    echo "❌ Docker socket not found!"
+    echo "Docker socket not found!"
     exit 1
 fi
 
 
 # Run Python app
-echo "Running gns3-ui.py..."
-python3 gns3-ui.py
+echo "Running network-ui.py..."
+python3 network-ui.py

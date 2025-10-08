@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Linux Server Playground</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f0f4c3, #e0f7fa);
+      color: #333;
+      padding: 50px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .container:hover {
+      transform: scale(1.01);
+    }
+
+    h1 {
+      color: #2e7d32;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    h1 span {
+      font-size: 2.8rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.7;
+    }
+
+    ul {
+      margin-top: 20px;
+      padding-left: 20px;
+    }
+
+    ul li {
+      margin-bottom: 12px;
+      font-size: 1.1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      background: linear-gradient(to right, #66bb6a, #388e3c);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(to right, #388e3c, #2e7d32);
+    }
+
+    .link-docs {
+      display: inline-block;
+      margin-top: 20px;
+      color: #2e7d32;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .link-docs:hover {
+      text-decoration: underline;
+    }
+
+    .emoji {
+      font-size: 1.4rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><span>🐧</span> Linux Server Playground</h1>
+    <p>Welcome to your <strong>Linux Server learning lab</strong>! This local playground helps you quickly create and manage Linux servers and desktops with one click:</p>
+
+    <ul>
+      <li>📦 Learn the difference between <strong>YUM-based</strong> (RHEL, CentOS, AlmaLinux) and <strong>APT-based</strong> (Debian, Ubuntu) systems</li>
+      <li>🛠️ Practice installing services using <code>yum</code> and <code>apt</code> commands</li>
+      <li>🧰 Configure SSH, firewall (ufw/firewalld), users, groups, and permissions</li>
+      <li>🗂️ Manage Nginx/Apache, FTP, Samba, and system logs</li>
+      <li>💡 Automate tasks using <strong>cron</strong>, <strong>bash scripting</strong>, and <strong>systemd</strong> services</li>
+    </ul>
+
+    <a class="link-docs" href="https://ubuntu.com/server/docs" target="_blank">📖 Ubuntu Server Docs (APT-based)</a><br>
+    <a class="link-docs" href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/" target="_blank">📖 Red Hat Server Docs (YUM-based)</a><br>
+
+    <a class="btn" href="/pre-req">🔧 Check Linux Lab Prerequisites</a>
+  </div>
+</body>
+</html>
+

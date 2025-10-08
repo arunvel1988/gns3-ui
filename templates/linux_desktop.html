@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Deploy Linux Desktop</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #fff8e1, #e1f5fe);
+      padding: 60px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      color: #0288d1;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      margin-top: 20px;
+    }
+
+    select, input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 30px;
+      background: linear-gradient(to right, #039be5, #0288d1);
+      color: #fff;
+      font-size: 1.1rem;
+      text-decoration: none;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(to right, #0288d1, #01579b);
+      transform: scale(1.05);
+    }
+
+    .btn-secondary {
+      background-color: #546e7a;
+      margin-top: 20px;
+    }
+
+    .btn-secondary:hover {
+      background-color: #37474f;
+    }
+
+    .actions {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🐧 Deploy Linux Desktop</h2>
+    <form method="POST" action="/linux/desktop">
+      <label for="version">Select Desktop Environment:</label>
+      <select name="version" id="version" required>
+        <option value="ubuntu">Ubuntu Desktop </option>        
+        <option value="alpine">Alpine</option>
+        <option value="busybox">Busybox</option>
+      </select>
+
+      <label for="name">Enter Container Name:</label>
+      <input type="text" id="name" name="name" placeholder="e.g. ubuntu-client" required>
+
+      <div class="actions">
+        <button type="submit" class="btn">🚀 Deploy Desktop</button><br>
+        <a href="/linux" class="btn btn-secondary">Linux</a>
+        <a class="btn btn-secondary" href="/linux/desktop/desktop_list">Linux Desktop List</a>
+        <a href="/" class="btn btn-secondary">🏠 Home</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+
