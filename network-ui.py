@@ -277,7 +277,7 @@ def list_gns3_containers():
     containers = []
     for c in client.containers.list():
         try:
-            if c.image.tags and ("gns3-server-v1" in c.name or "ubuntu-desktop-lxde-vnc" in c.image.tags[0]):
+            if c.image.tags and ("arunvel1988/gns3-server-v1" in c.name or "ubuntu-desktop-lxde-vnc" in c.image.tags[0]):
                 containers.append({
                     "name": c.name,
                     "status": c.status,
