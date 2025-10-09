@@ -220,7 +220,7 @@ services:
       - QEMU_ACCEL=tcg
     volumes:
       - {container_prefix}_data:/data
-      - ./gns3_server.conf:/server/conf/gns3_server.conf:rw
+      - ./../gns3_server.conf:/server/conf/gns3_server.conf:rw
 
   {gui_name}:
     image: arunvel1988/ubuntu-desktop-lxde-vnc
