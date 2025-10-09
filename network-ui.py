@@ -216,7 +216,8 @@ services:
     ports:
       - "{server_port}:3080"
     environment:
-      - GNS3_ENABLE_KVM=false
+      - GNS3_ENABLE_KVM=False
+      - QEMU_ACCEL=tcg
     volumes:
       - {container_prefix}_data:/data
 
