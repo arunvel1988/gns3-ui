@@ -1,11 +1,25 @@
+#################################################################
+#### gns-gui in container #######################################
 sudo add-apt-repository ppa:gns3/ppa -y
 sudo apt update -y
 sudo apt install gns3-gui -y
 gns3
 #######################################################
-
+#### for sound ###############################
 sudo apt update -y
 sudo apt install linux-modules-extra-6.8.0-51-generic 
 sudo modprobe snd-aloop index=2
 aplay -l
  #######################################################
+
+########################### qcow2 manual command ##############################
+qemu-system-x86_64 \
+    -accel tcg \
+    -m 256M \
+    -hda ./generic_alpine-3.22.1-x86_64-bios-tiny-r0.qcow2 \
+    -boot c \
+    -net nic \
+    -net user,hostfwd=tcp::2222-:22 \
+    -nographic
+
+#########################################################
