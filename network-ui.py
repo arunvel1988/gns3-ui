@@ -221,6 +221,8 @@ services:
     volumes:
       - {container_prefix}_data:/data
       - ./../gns3_server.conf:/server/conf/gns3_server.conf:rw
+      - ./../qemu_vm.py:/server/gns3server/compute/qemu/qemu_vm.py:rw
+
 
   {gui_name}:
     image: arunvel1988/ubuntu-desktop-lxde-vnc
