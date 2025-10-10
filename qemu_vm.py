@@ -2314,7 +2314,7 @@ class QemuVM(BaseNode):
 
             if sys.platform.startswith("linux") and not os.path.exists("/dev/kvm"):
                 if require_hardware_accel:
-                    raise QemuError("KVM acceleration cannot be used (/dev/kvm doesn't exist). It is possible to turn off KVM support in the gns3_server.conf by adding enable_kvm = false to the [Qemu] section.")
+                   log.warning("KVM not available, running in software emulation mode (TCG)")
                 else:
                     return False
             elif sys.platform.startswith("win"):
