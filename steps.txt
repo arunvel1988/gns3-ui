@@ -22,4 +22,7 @@ qemu-system-x86_64 \
     -net user,hostfwd=tcp::2222-:22 \
     -nographic
 
+
+
+-machine accel=tcg
 #########################################################
