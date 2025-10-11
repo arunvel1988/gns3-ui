@@ -198,8 +198,10 @@ def get_random_port(start=4000, end=9000):
 def generate_random_name(prefix):
     suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=4))
     return f"{prefix}-{suffix}"
+##########################################################################
+######################################################################
+##########################################################################
 
-import shutil
 
 def create_gns3_compose_file(server_port, gui_port, container_prefix):
     server_name = f"{container_prefix}-server"
@@ -208,22 +210,26 @@ def create_gns3_compose_file(server_port, gui_port, container_prefix):
     os.makedirs("compose_files", exist_ok=True)
     os.makedirs("gns3_confs", exist_ok=True)  # store per-user config files
 
-    # Create a unique copy of gns3_server.conf for this user
     base_conf = "./gns3_server.conf"
     user_conf = f"gns3_confs/{container_prefix}_server.conf"
+
+    # 🧹 Safety: if a directory with the same name exists, delete it
+    if os.path.exists(user_conf) and os.path.isdir(user_conf):
+        shutil.rmtree(user_conf)
+
+    # Copy the base config for this user
     shutil.copy(base_conf, user_conf)
 
-    # 🔥 Modify the port and other settings dynamically
+    # 🔥 Modify the port dynamically
     with open(user_conf, "r") as f:
         conf = f.read()
 
-    conf = conf.replace("port = 3080", f"port = {server_port}")  # change control port
-   
+    conf = conf.replace("port = 3080", f"port = {server_port}")
 
     with open(user_conf, "w") as f:
         f.write(conf)
 
-    # Now generate docker-compose file
+    # 🧩 Docker Compose file
     compose_content = f"""
 version: '3.8'
 services:
@@ -267,6 +273,7 @@ volumes:
         f.write(compose_content)
 
     return file_path, server_name, gui_name, server_port, gui_port
+
 
 ##################GNS INSTALLATION##################
 
