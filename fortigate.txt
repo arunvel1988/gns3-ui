@@ -2,21 +2,26 @@ sudo apt update
 sudo apt install libvirt-daemon-system libvirt-clients -y
 sudo systemctl enable --now libvirtd
 
+sudo sysctl -w net.ipv4.ip_forward=1
+sudo iptables -t nat -A POSTROUTING -s 172.20.0.0/16 ! -d 172.20.0.0/16 -j MASQUERADE
+
 
 get system status
 
 config system interface
 edit port2       # the port connected to Cloud node
-set ip 10.160.0.100/24   # any free IP in host subnet
+set ip 172.20.0.10/16   # any free IP in host subnet
 set allowaccess ping http https
 next
 end
 config router static
 edit 1
-set gateway 10.160.0.14   # host IP
+set gateway 172.20.0.1    # host IP
 set device port2
 next
 end
 
+sudo sysctl -w net.ipv4.ip_forward=1
+sudo iptables -t nat -A POSTROUTING -s 172.20.0.0/16 ! -d 172.20.0.0/16 -j MASQUERADE
 
 execute ping 8.8.8.8
