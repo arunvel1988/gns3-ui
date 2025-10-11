@@ -1,3 +1,4 @@
+################# on ubuntu host###################################################
 sudo apt update
 sudo apt install libvirt-daemon-system libvirt-clients -y
 sudo systemctl enable --now libvirtd
@@ -5,7 +6,12 @@ sudo systemctl enable --now libvirtd
 sudo sysctl -w net.ipv4.ip_forward=1
 sudo iptables -t nat -A POSTROUTING -s 172.20.0.0/16 ! -d 172.20.0.0/16 -j MASQUERADE
 
+##############################################################
+################## on vpcs ##############################
+ip 192.168.122.10/24 192.168.122.1
+###################################################
 
+################## on fortigate ##################################
 get system status
 
 config system interface
@@ -25,3 +31,4 @@ sudo sysctl -w net.ipv4.ip_forward=1
 sudo iptables -t nat -A POSTROUTING -s 172.20.0.0/16 ! -d 172.20.0.0/16 -j MASQUERADE
 
 execute ping 8.8.8.8
+#######################################################
