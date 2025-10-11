@@ -1,3 +1,8 @@
+sudo apt update
+sudo apt install libvirt-daemon-system libvirt-clients -y
+sudo systemctl enable --now libvirtd
+
+
 get system status
 
 config system interface
