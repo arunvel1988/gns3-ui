@@ -14,4 +14,4 @@ set device port2
 next
 end
 
-ping 8.8.8.8
+execute ping 8.8.8.8
