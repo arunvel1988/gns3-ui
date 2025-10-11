@@ -246,7 +246,7 @@ services:
       - QEMU_ACCEL=tcg
     volumes:
       - {container_prefix}_data:/data
-      - ./{user_conf}:/server/conf/gns3_server.conf:rw
+      - ./gns3_confs/{container_prefix}_server.conf:/server/conf/gns3_server.conf:rw
       - ./../qemu_vm.py:/server/gns3server/compute/qemu/qemu_vm.py:rw
 
   {gui_name}:
