@@ -6,7 +6,7 @@ sudo systemctl enable --now libvirtd
 get system status
 
 config system interface
-edit port0       # the port connected to Cloud node
+edit port2       # the port connected to Cloud node
 set ip 10.160.0.100/24   # any free IP in host subnet
 set allowaccess ping http https
 next
@@ -14,7 +14,7 @@ end
 config router static
 edit 1
 set gateway 10.160.0.14   # host IP
-set device port0
+set device port2
 next
 end
 
