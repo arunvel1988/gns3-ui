@@ -42,6 +42,8 @@ end
 ############################
 
 ############# static ip fortigate #################
+
+config system interface
 edit port2         # the port connected to NAT node
 set ip 192.168.122.15/24   # use an IP in NAT subnet
 set allowaccess ping http https
