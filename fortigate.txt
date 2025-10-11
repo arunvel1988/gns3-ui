@@ -1,16 +1,17 @@
 get system status
-######################## wan interface ###################################
-config system interface
-edit port1
-set mode dhcp
-set allowaccess ping http https ssh
-next
-end
-################################################################
 
 config system interface
-edit port2
-set ip 192.168.1.1/24
-set allowaccess ping http https ssh
+edit port1
+set ip 172.20.0.10/16          # choose any free IP in the 172.20.0.0/16 range
+set allowaccess ping           # optional: allow ping to test
 next
 end
+
+config router static
+edit 1
+set gateway 172.20.0.1         # Docker bridge IP
+set device port1
+next
+end
+
+ping 8.8.8.8
