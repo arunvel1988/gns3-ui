@@ -212,7 +212,7 @@ services:
     image: arunvel1988/gns3-server-v1
     container_name: {server_name}
     restart: always
-    network_mode: host
+    
     privileged: true
     ports:
       - "{server_port}:3080"
