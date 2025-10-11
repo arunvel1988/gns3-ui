@@ -31,14 +31,14 @@ get system status
 config system interface
 
 ##################### dhcp ip on fortigate ##########################################
-
+##################################### DHCP- START #########################################
 config system interface
 edit port2
 set mode dhcp
 set allowaccess ping http https
 next
 end
-
+##################################### DHCP- END #########################################
 ############################
 
 ############# static ip fortigate #################
