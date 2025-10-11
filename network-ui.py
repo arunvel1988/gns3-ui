@@ -179,7 +179,7 @@ def install_portainer_route():
 
 
 
-##################GNS INSTALLATION##################
+##################ANSIBLE INSTALLATION##################
 
 @app.route("/network")
 def network_info():
@@ -198,38 +198,13 @@ def get_random_port(start=4000, end=9000):
 def generate_random_name(prefix):
     suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=4))
     return f"{prefix}-{suffix}"
-##########################################################################
-######################################################################
-##########################################################################
-
 
 def create_gns3_compose_file(server_port, gui_port, container_prefix):
     server_name = f"{container_prefix}-server"
     gui_name = f"{container_prefix}-gui"
 
     os.makedirs("compose_files", exist_ok=True)
-    os.makedirs("gns3_confs", exist_ok=True)  # store per-user config files
 
-    base_conf = "./gns3_server.conf"
-    user_conf = f"gns3_confs/{container_prefix}_server.conf"
-
-    # 🧹 Safety: if a directory with the same name exists, delete it
-    if os.path.exists(user_conf) and os.path.isdir(user_conf):
-        shutil.rmtree(user_conf)
-
-    # Copy the base config for this user
-    shutil.copy(base_conf, user_conf)
-
-    # 🔥 Modify the port dynamically
-    with open(user_conf, "r") as f:
-        conf = f.read()
-
-    conf = conf.replace("port = 3080", f"port = {server_port}")
-
-    with open(user_conf, "w") as f:
-        f.write(conf)
-
-    # 🧩 Docker Compose file
     compose_content = f"""
 version: '3.8'
 services:
@@ -246,8 +221,9 @@ services:
       - QEMU_ACCEL=tcg
     volumes:
       - {container_prefix}_data:/data
-      - ./../gns3_confs/{container_prefix}_server.conf:/server/conf/gns3_server.conf:rw
+      - ./../gns3_server.conf:/server/conf/gns3_server.conf:rw
       - ./../qemu_vm.py:/server/gns3server/compute/qemu/qemu_vm.py:rw
+
 
   {gui_name}:
     image: arunvel1988/ubuntu-desktop-lxde-vnc
@@ -273,9 +249,6 @@ volumes:
         f.write(compose_content)
 
     return file_path, server_name, gui_name, server_port, gui_port
-
-
-##################GNS INSTALLATION##################
 
 def run_docker_compose(compose_file, container_prefix):
     try:
