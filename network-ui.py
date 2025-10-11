@@ -209,7 +209,7 @@ def create_gns3_compose_file(server_port, gui_port, container_prefix):
     os.makedirs("gns3_confs", exist_ok=True)  # store per-user config files
 
     # Create a unique copy of gns3_server.conf for this user
-    base_conf = "./../gns3_server.conf"
+    base_conf = "./gns3_server.conf"
     user_conf = f"gns3_confs/{container_prefix}_server.conf"
     shutil.copy(base_conf, user_conf)
 
