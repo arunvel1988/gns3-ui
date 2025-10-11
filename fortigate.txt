@@ -1,0 +1,16 @@
+get system status
+######################## wan interface ###################################
+config system interface
+edit port1
+set mode dhcp
+set allowaccess ping http https ssh
+next
+end
+################################################################
+
+config system interface
+edit port2
+set ip 192.168.1.1/24
+set allowaccess ping http https ssh
+next
+end
