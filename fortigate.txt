@@ -6,17 +6,17 @@ sudo systemctl enable --now libvirtd
 get system status
 
 config system interface
-edit port2
-set ip 172.20.0.10/16          # choose any free IP in the 172.20.0.0/16 range
-set allowaccess ping           # optional: allow ping to test
+edit port0       # the port connected to Cloud node
+set ip 10.160.0.100/24   # any free IP in host subnet
+set allowaccess ping http https
+next
+end
+config router static
+edit 1
+set gateway 10.160.0.14   # host IP
+set device port0
 next
 end
 
-config router static
-edit 2
-set gateway 172.20.0.1         # Docker bridge IP
-set device port2
-next
-end
 
 execute ping 8.8.8.8
