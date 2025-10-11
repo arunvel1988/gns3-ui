@@ -179,7 +179,7 @@ def install_portainer_route():
 
 
 
-##################ANSIBLE INSTALLATION##################
+##################GNS INSTALLATION##################
 
 @app.route("/network")
 def network_info():
@@ -199,12 +199,31 @@ def generate_random_name(prefix):
     suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=4))
     return f"{prefix}-{suffix}"
 
+import shutil
+
 def create_gns3_compose_file(server_port, gui_port, container_prefix):
     server_name = f"{container_prefix}-server"
     gui_name = f"{container_prefix}-gui"
 
     os.makedirs("compose_files", exist_ok=True)
+    os.makedirs("gns3_confs", exist_ok=True)  # store per-user config files
 
+    # Create a unique copy of gns3_server.conf for this user
+    base_conf = "./../gns3_server.conf"
+    user_conf = f"gns3_confs/{container_prefix}_server.conf"
+    shutil.copy(base_conf, user_conf)
+
+    # 🔥 Modify the port and other settings dynamically
+    with open(user_conf, "r") as f:
+        conf = f.read()
+
+    conf = conf.replace("port = 3080", f"port = {server_port}")  # change control port
+   
+
+    with open(user_conf, "w") as f:
+        f.write(conf)
+
+    # Now generate docker-compose file
     compose_content = f"""
 version: '3.8'
 services:
@@ -221,9 +240,8 @@ services:
       - QEMU_ACCEL=tcg
     volumes:
       - {container_prefix}_data:/data
-      - ./../gns3_server.conf:/server/conf/gns3_server.conf:rw
+      - ./{user_conf}:/server/conf/gns3_server.conf:rw
       - ./../qemu_vm.py:/server/gns3server/compute/qemu/qemu_vm.py:rw
-
 
   {gui_name}:
     image: arunvel1988/ubuntu-desktop-lxde-vnc
@@ -249,6 +267,8 @@ volumes:
         f.write(compose_content)
 
     return file_path, server_name, gui_name, server_port, gui_port
+
+##################GNS INSTALLATION##################
 
 def run_docker_compose(compose_file, container_prefix):
     try:
