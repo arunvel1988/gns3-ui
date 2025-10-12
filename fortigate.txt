@@ -46,7 +46,7 @@ end
 config system interface
 edit port2         # the port connected to NAT node
 set ip 172.28.0.100/16   # use an IP in NAT subnet
-set allowaccess ping http https
+set allowaccess ping http https fgfm ftm ssh
 next
 end
 
