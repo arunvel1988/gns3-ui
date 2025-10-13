@@ -16,13 +16,28 @@ ip 192.168.122.10/24 192.168.122.1
 ##############################################################
 ######## fortigate mgmt commands #########################
 
+# Enable VDOM root (if not already)
+config system global
+set vdom-admin enable
+end
+
+# Configure the mgmt interface for GUI
 config system interface
-edit port2
+edit mgmt
 set vdom root
 set ip 172.28.0.100/24
 set allowaccess ping http https ssh
 next
 end
+
+# Set default route via GNS3 NAT
+config router static
+edit 0
+set gateway 172.28.0.1    # NAT node IP in GNS3
+set device mgmt
+next
+end
+
 
 #################################################
 
