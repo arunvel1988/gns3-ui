@@ -12,6 +12,20 @@ ip 192.168.122.10/24 192.168.122.1
 ###################################################
 
 
+
+##############################################################
+######## fortigate mgmt commands #########################
+
+config system interface
+edit port2
+set vdom root
+set ip 172.28.0.100/24
+set allowaccess ping http https ssh
+next
+end
+
+#################################################
+
 ################## on vpcs = cloud ##############################
 
 # Set IP address and gateway
