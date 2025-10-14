@@ -1,0 +1,46 @@
+sudo apt update && sudo apt upgrade -y
+sudo apt install git nginx python3-pip python3-venv -y
+
+mkdir ~/flaskapp && cd ~/flaskapp
+python3 -m venv venv
+source venv/bin/activate
+pip install flask gunicorn
+pip install flask_sqlalchemy
+
+
+
+
+
+
+nohup gunicorn --bind 127.0.0.1:5000 app:app > gunicorn.log 2>&1 &
+
+
+sudo apt install nano -y
+
+sudo nano /etc/nginx/sites-available/vasscomputer
+server {
+    listen 80;
+    server_name vasscomputer.co.in www.vasscomputer.co.in;
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+
+
+sudo ln -s /etc/nginx/sites-available/vasscomputer /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+
+
+sudo apt install certbot python3-certbot-nginx -y
+
+
+sudo certbot --nginx -d vasscomputer.co.in -d vasscomputer.co.in
+
+
+
+sudo certbot renew --dry-run
