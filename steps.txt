@@ -23,6 +23,9 @@ qemu-system-x86_64 \
     -nographic
 
 
+#################################################
+-machine accel=tcg      (on cloud vm)
 
--machine accel=tcg
+-machine accel=kvm -cpu host      (on localhost)
+
 #########################################################
